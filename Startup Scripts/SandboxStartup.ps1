@@ -31,6 +31,9 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "H
 # Enable Windows Long Path support
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d 1 /f
 
+# Add End Task option to Taskbar right click menu
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings" /v "TaskbarEndTask" /t REG_DWORD /d 1 /f
+
 # Fix for slow MSI package install. Note: On a normal machine this would disable "Smart App Control", it's unknown the exact effect within the sandbox. It likely disables some kind of SmartScreen security checking.
 # See: https://github.com/microsoft/Windows-Sandbox/issues/68#issuecomment-2754867968
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f
@@ -133,6 +136,12 @@ If (($null -ne $notepadPath) -or ($null -ne $notepadPlusPlusPath)) {
 		cmd /c ftype txtfile=`"$notepadPath`" "%1"
 	} 
 }
+
+	# Optional: Uncomment to run the Set Dark Theme script at startup. (The & runs one script from another)
+	# The AutoRange parameter can be used to only apply the theme during certain hours, such as "18:00-06:00" for night time.
+	# If you want to always apply the theme, you can omit the AutoRange parameter.
+# & "C:\Users\WDAGUtilityAccount\Desktop\HostShared\Set Theme Dark Mode.ps1" -NoRestartExplorer -AutoRange "18:00-06:00" 
+
 
 # ================================ FINALIZATION ================================
 
